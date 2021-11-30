@@ -123,3 +123,9 @@ scripts/tests/test_transformation_functions.py ...   [100%]
 
 ## Scheduling jobs 
 TODO. 
+
+
+# Contributors
+- [@jonathanneo](https://github.com/jonathanneo)
+- [@yourTeamMate1](https://github.com)
+- [@yourTeamMate2](https://github.com)
