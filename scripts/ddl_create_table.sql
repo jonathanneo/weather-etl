@@ -13,7 +13,6 @@ CREATE TABLE "city" (
 );
 
 CREATE TABLE "temperature" (
-    "temperature_id" SERIAL   NOT NULL,
     "city_id" INT   NOT NULL,
     "datetime" TEXT   NOT NULL,
     "main_temp" DECIMAL   NOT NULL,
@@ -21,21 +20,17 @@ CREATE TABLE "temperature" (
     "main_temp_min" DECIMAL   NOT NULL,
     "main_temp_max" DECIMAL   NOT NULL,
     CONSTRAINT "pk_temperature" PRIMARY KEY (
-        "temperature_id"
+        "city_id","datetime"
      )
 );
 
 CREATE TABLE "atmosphere" (
-    "atmosphere_id" SERIAL   NOT NULL,
     "city_id" INT   NOT NULL,
     "datetime" TEXT   NOT NULL,
     "main_pressure" DECIMAL   NOT NULL,
     "main_humidity" DECIMAL   NOT NULL,
-    "wind_deg" INT   NOT NULL,
-    "clouds_all" INT   NOT NULL,
-    "wind_gust" DECIMAL   NOT NULL,
     CONSTRAINT "pk_atmosphere" PRIMARY KEY (
-        "atmosphere_id"
+        "city_id","datetime"
      )
 );
 
