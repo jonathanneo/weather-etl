@@ -1,16 +1,35 @@
-from typing import Tuple
 import pandas as pd 
 
-def clean_abs_data(input_df:pd.DataFrame)->Tuple:
-    df = input_df.copy(deep=True) # create a deep copy of the DataFrame
-    # do cleaning here 
-    df = df.dropna()  # this is one example cleaning step, you should do more 
-    df_suburb = df[["colA", "colB"]]
-    df_population = df[["colA", "colB"]]
-    return (df_suburb, df_population)
+def convert_unix_timestamp(input_df:pd.DataFrame, date_columns:list=[])->pd.DataFrame:
+    """
+    Converts unix timestamp columns to datetime string. 
 
-def clean_road_crash_data(input_df:pd.DataFrame)->pd.DataFrame:
-    df = input_df.copy(deep=True) # create a deep copy of the DataFrame
-    # do cleaning here 
-    df = df.dropna()  # this is one example cleaning step, you should do more 
+    input: 
+    - input_df: your input dataframe 
+    - date_columns: a list of column names which contains unix timestamps you wish to convert 
+
+    returns: 
+    - cleaned dataframe
+    """
+    df = input_df.copy(deep=True)
+    for date_column in date_columns: 
+        df[date_column] = pd.to_datetime(df[date_column], unit="s")
     return df 
+
+def replace_column_character(input_df:pd.DataFrame, replace_dict:dict={})->pd.DataFrame:
+    """
+    Replaces characters that exist in your columns. 
+
+    input: 
+    - input_df: your input dataframe 
+    - replace_dict: a dictionary with mappings of {"source": "target"}
+
+    returns: 
+    - cleaned dataframe
+    """
+    df = input_df.copy(deep=True)
+    new_columns = {} 
+    for column in df.columns: 
+        for key in replace_dict.keys():
+            new_columns[column] = column.replace(key, replace_dict[key])
+    return df.rename(columns=new_columns)
