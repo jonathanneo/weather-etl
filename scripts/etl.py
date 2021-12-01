@@ -27,7 +27,8 @@ warnings.filterwarnings('ignore')
 # In[46]:
 
 
-capital_cities_df = pd.read_csv(os.path.join("..", "data", "australian_capital_cities.csv"))
+file_path = os.path.dirname(os.path.realpath(__file__))
+capital_cities_df = pd.read_csv(os.path.join(file_path, "..", "data", "australian_capital_cities.csv"))
 
 
 # ## Get Weather Data 
@@ -40,6 +41,7 @@ weather_data = []
 for city_name in capital_cities_df["city_name"]:
     params = {
         "q": city_name,
+        "units": "metric",
         "appid": api_key
     }   
     response = requests.get(f"http://api.openweathermap.org/data/2.5/weather", params=params)

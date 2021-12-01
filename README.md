@@ -2,90 +2,119 @@
 
 Explain the questions you are trying to answer by provisioning data as a data engineer. Explain how the data you provision is going to help data analysts perform their role. 
 
+# Repo structure 
+```
+.github/workflows                           # contains continuous integration pipelines 
+data/                                       # contains static datasets 
+docs/                                       # contains additional documentation 
+images/                                     # contains images used for the README
+scripts/    
+    |__ credentials.py                      # create your own credentials.py here (already added to .gitignore)
+    |__ ddl_create_table.sql                # SQL code used to create the target tables 
+    |__ etl.ipynb                           # the python ETL notebook (write your code here)
+    |__ etl.py                              # an auto-generated file from the python ETL notebook (do not write your code here)
+    |__ run_etl.sh                          # a shell script used to shorten the amount of code needed to be written in cron 
+    |__ test_transformation_functions.py    # pytest unit tests 
+    |__ transform_functions.py              # custom user-generated transformation functions 
+README.md                                   # all you need to know is in here 
+requirements.txt                            # python dependencies 
+```
+
 # Solution 
 
 ## Solution architecture 
 
-![simple_solution_architecture.drawio.png](images/simple_solution_architecture.drawio.png)
+The solution architecture diagram was created using: https://draw.io/ 
+
+Icons were taken from: https://www.flaticon.com/ 
+
+
+![solution_architecture.drawio.png](images/solution_architecture.drawio.png)
 
 The **E**xtract, **T**ransform, and **L**oad steps are explained below. 
 
-## Extract 
+<details>
+<summary><strong> Extract </strong></summary>
 
-### Data sources 
+#### Data sources 
 Data is extracted from the following data sources. 
 
 | No | Data Source | Description | Source Type | URL | 
 | - | - | - |- | - |
-| 1 | Australian Bureau of Statitics | Contains data relating to population statitics | REST API | https://www.abs.gov.au/ | 
-| 2 | Accidents CSV | Contains data relating to road accidents from data.gov.au | CSV | https://data.gov.au/dataset/ds-sa-21386a53-56a1-4edf-bd0b-61ed15f10acf/details?q=car%20crash | 
+| 1 | OpenWeather API | Contains current weather data | REST API | https://openweathermap.org/current | 
+| 2 | Australian Capital Cities | Contains names of australian capital cities | CSV | user generated | 
 
-### Schedule 
+</details>
 
-The ETL job runs on a scheduled basis at 5am every week using Cron on Mac OS. 
+<details>
+<summary><strong> Transform </strong></summary>
 
-![cronjob.png](images/cronjob.png)
-
-Here is the cron code used: 
-
-```
-0 5 * * 1 blah/blah/blah/python3 etl.py
-```
-
-## Transform 
 
 The following transformation scripts are executed: 
 | Script | Input | Output |  
 | - | - |- |
-| `etl.py` | [1], [2] | `population`, `suburb`, `crashes` | 
+| `etl.ipynb` | [1], [2] | `city`, `temperature`, `atmosphere` | 
 
-## Load 
+The `etl.ipynb` notebook is converted to `etl.py` by running the code below: 
+```sh
+python -m jupyter nbconvert --to python etl.ipynb
+```
+</details>
 
+
+<details>
+<summary><strong> Load </strong></summary>
+
+
+#### Loading process 
+Data is loaded into the PostgreSQL using an upsert (insert/update) statement. 
+
+1. Attempt to insert the records 
+2. If fail due to records already existing, then update records 
+
+</details>
+
+# ERD and Data Dictionary
 
 ### Entity Relationship Diagram 
-Data is loaded into the tables listed below. 
+
+The ERD diagram was created using: https://app.quickdatabasediagrams.com/#/
 
 ![erd.png](images/erd.png)
 
 The Data Definition Language (DDL) used to create the tables can be found [here](scripts/ddl_create_table.sql). 
 
-
-### Loading process 
-The loading procedure is as follows: 
-
-1. Delete data from target tables 
-```sql
--- Delete data from the target tables 
-DELETE FROM crashes; 
-DELETE FROM population; 
-DELETE FROM suburb;
-```
-
-2. Insert data using sqlalchemy and pandas 
-```python
-# Insert data using sqlalchemy + pd.to_sql 
-engine = create_engine('postgresql://scott:tiger@localhost/mydatabase')
-
-df_suburb.to_sql("suburb", engine)
-df_population.to_sql("population", engine)
-df_crashes.to_sql("crashes", engine)
-
-```
-
 ### Data dictionary 
-| Table name | Column name | Definition | 
-| - | - | - | 
-| suburb | suburb_id | The unique id of each suburb | 
-| suburb | suburb_name | The name of each suburb | 
-| population | population_id | The unique id of each population entry (unique per year + suburb_id) | 
-| population | suburb_id | The foreign key to the suburb table | 
-| population | year | The year of the population count |
-| population | population_count | The population count observed for the specified year | 
-| crashes | crash_id | The unique id of each crash | 
-| crashes | crash_lat | The latitude of each crash | 
-| crashes | crash_lng | The longitude of each crash | 
-| crashes | suburb_id | The foreign key to the suburb table | 
-| crashes | crash_description | The description of the crash that was entered by the attending officer at that time | 
+
+Below are the data definitions for the following tables: 
+
+<b>`city`</b>
+|Column name| Definition | 
+|-|-|
+|city_id|The unique id for each city| 
+|name| The name of the city |
+|coord_lon| The longitude of the city|
+|coord_lat| The latitude of the city| 
+
+<b>`temperature`</b>
+|Column name| Definition | 
+|-|-|
+|city_id|The unique id for each city| 
+|datetime| The timestamp of when the temperature was taken |
+|main_temp| The actual temperature at that time|
+|main_feels_like| The temperature it feels  like taking into consideration other factors|
+|main_temp_min| The minimum the temperature could be at that point in time|
+|main_temp_max| The maximum the temperature could be at that point in time|
+
+<b>`atmosphere`</b>
+|Column name| Definition | 
+|-|-|
+|city_id|The unique id for each city| 
+|datetime| The timestamp of when the atmosphere was measured |
+|main_pressure| The atmospheric pressure at that point in time|
+|main_humidity| The humidity at that point in time|
+
+
 
 # Usage 
 
@@ -102,6 +131,8 @@ pip install -r requirements.txt
 To run the ETL code on your computer, execute the following in your terminal: 
 
 ```
+cd scripts
+python -m jupyter nbconvert --to python scripts/etl.ipynb
 python scripts/etl.py
 ```
 
@@ -122,8 +153,43 @@ scripts/test_transformation_functions.py .. [100%]
 ====== 2 passed in 0.36s ======
 ```
 
+## Continuous integration 
+
+To ensure that code is tested prior to merging to the `main` branch, an automated Continuous Integration (CI) pipeline has been configured. 
+
+See code [here](.github/workflows/etl-ci.yml). 
+
+The expected output when the CI pipeline runs are: 
+
+1. Successful execution of CI pipeline 
+
+![ci-pipeline.png](images/ci-pipeline.png)
+
+
+2. All unit tests passed 
+
+![ci-test-output.png](images/ci-test-output.png)
+
+
+
 ## Scheduling jobs 
-TODO. 
+
+To schedule a job using cron (see full guide [here](https://ole.michelsen.dk/blog/schedule-jobs-with-crontab-on-mac-osx/)): 
+
+```sh 
+# open crontab 
+env EDITOR=nano crontab -e
+# paste the following into crontab
+* * * * * cd /Users/jonathanneo/Documents/trilogy/example-etl-project/scripts && bash run_etl.sh
+# check that the cron job has been scheduled - you should see your job appear 
+crontab -l 
+```
+
+You should see the following output: 
+```
+(base) Jonathans-MacBook-Pro-2:~ jonathanneo$ crontab -l
+* * * * * cd /Users/jonathanneo/Documents/trilogy/example-etl-project/scripts && bash run_etl.sh
+```
 
 
 # Contributors
