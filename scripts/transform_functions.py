@@ -31,5 +31,8 @@ def replace_column_character(input_df:pd.DataFrame, replace_dict:dict={})->pd.Da
     new_columns = {} 
     for column in df.columns: 
         for key in replace_dict.keys():
-            new_columns[column] = column.replace(key, replace_dict[key])
+            if new_columns.get(column) is None: 
+                new_columns[column] = column.replace(key, replace_dict[key])
+            else: 
+                new_columns[column] = new_columns[column].replace(key, replace_dict[key])
     return df.rename(columns=new_columns)

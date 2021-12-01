@@ -109,16 +109,17 @@ python scripts/etl.py
 To run the unit tests on your computer, execute the following in your terminal: 
 
 ```
-pytest scripts/tests
+pytest scripts
 ```
 
 You should see the following output: 
 
 ```
-======= test session starts =======
-collected 2 items   
-scripts/tests/test_transformation_functions.py ...   [100%]
-======= 2 passed in 5.40s =======
+====== test session starts ======
+platform darwin -- Python 3.7.11, pytest-6.2.5, py-1.11.0, pluggy-1.0.0
+collected 2 items
+scripts/test_transformation_functions.py .. [100%]
+====== 2 passed in 0.36s ======
 ```
 
 ## Scheduling jobs 
@@ -127,5 +128,3 @@ TODO.
 
 # Contributors
 - [@jonathanneo](https://github.com/jonathanneo)
-- [@yourTeamMate1](https://github.com)
-- [@yourTeamMate2](https://github.com)
