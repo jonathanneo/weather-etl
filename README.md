@@ -186,7 +186,9 @@ To schedule a job using cron (see full guide [here](https://ole.michelsen.dk/blo
 # open crontab 
 env EDITOR=nano crontab -e
 # paste the following into crontab
-* * * * * cd /Users/jonathanneo/Documents/trilogy/example-etl-project/scripts && bash run_etl.sh
+* * * * * cd /Users/jonathanneo/Documents/trilogy/weather-etl/scripts && bash run_etl.sh
+# write the file using: CTRL + O
+# close the file using: CTRL + X
 # check that the cron job has been scheduled - you should see your job appear 
 crontab -l 
 ```
@@ -194,7 +196,7 @@ crontab -l
 You should see the following output: 
 ```
 (base) Jonathans-MacBook-Pro-2:~ jonathanneo$ crontab -l
-* * * * * cd /Users/jonathanneo/Documents/trilogy/example-etl-project/scripts && bash run_etl.sh
+* * * * * cd /Users/jonathanneo/Documents/trilogy/weather-etl/scripts && bash run_etl.sh
 ```
 
 

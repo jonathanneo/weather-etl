@@ -1,2 +1,2 @@
 #!/usr/bin/env bash
-cd /Users/jonathanneo/Documents/trilogy/example-etl-project/scripts && /Users/jonathanneo/opt/anaconda3/envs/PythonData/bin/python3 -m jupyter nbconvert --to python etl.ipynb && /Users/jonathanneo/opt/anaconda3/envs/PythonData/bin/python3 etl.py
+cd /Users/jonathanneo/Documents/trilogy/weather-etl/scripts && /Users/jonathanneo/opt/anaconda3/envs/PythonData/bin/python3 -m jupyter nbconvert --to python etl.ipynb && /Users/jonathanneo/opt/anaconda3/envs/PythonData/bin/python3 etl.py
