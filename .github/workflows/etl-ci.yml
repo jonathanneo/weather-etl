@@ -14,7 +14,7 @@ jobs:
           source venv/bin/activate
       - run: pip install -r requirements.txt
       # run unit tests 
-      - run: python -m pytest scripts --junitxml=unit-testresults.xml
+      - run: pytest scripts --junitxml=unit-testresults.xml
       # output unit test results to github
       - name: Publish Unit Test Results
         uses: EnricoMi/publish-unit-test-result-action@v1
