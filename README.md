@@ -1,6 +1,12 @@
 # Purpose and motivation
 
-Explain the questions you are trying to answer by provisioning data as a data engineer. Explain how the data you provision is going to help data analysts perform their role. 
+CompanyX wishes to analyse historical trends of the weather data. In order to do so, it needs to retrieve and store weather data as frequently as possible (1 minute intervals). 
+
+CompanyX has a data analyst in the business, however they need support in (1) extracting weather from APIs and files, (2) transforming the data so that it is usable for the data analyst, (3) loading the data in a database which can then be queried and connected to by the data analyst. 
+
+This code repository contains the solution to perform the ETL on a scheduled basis, and store the data in a PostgreSQL Database. 
+
+To provide confidence over the transformations applied, unit tests have also been written. 
 
 # Repo structure 
 ```
