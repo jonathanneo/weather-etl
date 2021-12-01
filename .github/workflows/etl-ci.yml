@@ -5,11 +5,10 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v2
-      - run: | 
-          python -V
-          pip install virtualenv
-          source venv/bin/activate
-          pip install -r requirements.txt 
+      - run: python -V
+      - run: pip install virtualenv
+      - run: source venv/bin/activate
+      - run: pip install -r requirements.txt 
       - run: pytest scripts --junitxml=unit-testresults.xml
       - name: Publish Unit Test Results
         uses: EnricoMi/publish-unit-test-result-action@v1
