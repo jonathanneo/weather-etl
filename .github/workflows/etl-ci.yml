@@ -4,12 +4,18 @@ jobs:
   run-etl-ci: 
     runs-on: ubuntu-latest
     steps:
+      # checkout git repository 
       - uses: actions/checkout@v2
-      - run: python -V
-      - run: pip install virtualenv
-      - run: source venv/bin/activate
-      - run: pip install -r requirements.txt 
+      # set up virtual environment and install python requirements 
+      - run: |
+          python -V
+          pip install virtualenv
+          virtualenv venv
+          source venv/bin/activate
+          pip install -r requirements.txt 
+      # run unit tests 
       - run: pytest scripts --junitxml=unit-testresults.xml
+      # output unit test results to github
       - name: Publish Unit Test Results
         uses: EnricoMi/publish-unit-test-result-action@v1
         if: always()
