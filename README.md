@@ -1,12 +1,14 @@
 # Purpose and motivation
 
+This is a demonstration repository to help aspiring data engineers understand how ETL works end-to-end. 
+
 CompanyX wishes to analyse historical trends of the weather data. In order to do so, it needs to retrieve and store weather data as frequently as possible (1 minute intervals). 
 
 CompanyX has a data analyst in the business, however they need support in (1) extracting weather from APIs and files, (2) transforming the data so that it is usable for the data analyst, (3) loading the data in a database which can then be queried and connected to by the data analyst. 
 
 This code repository contains the solution to perform the ETL on a scheduled basis, and store the data in a PostgreSQL Database. 
 
-To provide confidence over the transformations applied, unit tests have also been written. 
+To provide confidence over the transformations applied, unit tests have also been written. Continuous integraiton pipelines has also been configured to automate the testing of code prior to merging to `main`.  
 
 # Repo structure 
 ```
@@ -59,7 +61,7 @@ Data is extracted from the following data sources.
 The following transformation scripts are executed: 
 | Script | Input | Output |  
 | - | - |- |
-| `etl.ipynb` | [1], [2] | `city`, `temperature`, `atmosphere` | 
+| [etl.ipynb](scripts/etl.ipynb) | [1], [2] | `city`, `temperature`, `atmosphere` | 
 
 The `etl.ipynb` notebook is converted to `etl.py` by running the code below: 
 ```sh
