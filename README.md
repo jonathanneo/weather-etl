@@ -49,7 +49,7 @@ Data is extracted from the following data sources.
 
 | No | Data Source | Description | Source Type | URL | 
 | - | - | - |- | - |
-| 1 | OpenWeather API | Contains current weather data | REST API | https://openweathermap.org/current | 
+| 1 | OpenWeather API | Contains current weather data | REST API | https://openweathermap.org/current (you will need to genereate your key there) | 
 | 2 | Australian Capital Cities | Contains names of australian capital cities | CSV | user generated | 
 
 </details>
@@ -138,9 +138,9 @@ pip install -r requirements.txt
 ## Credentials 
 In the `script/` folder, create a `credentials.py` file with the following variables:
 ```py
-api_key = "<your_api_key>"
-db_user = "<your_database_user>"
-db_password = "<your_database_password>"
+api_key = "<your_api_key>"                  # open weather API api key 
+db_user = "<your_database_user>"            # postgresql username 
+db_password = "<your_database_password>"    # postgresql password 
 ```
 
 These credentials will be used in the `etl.ipynb` notebook. 
