@@ -2,7 +2,7 @@ import pandas as pd
 
 def convert_unix_timestamp(input_df:pd.DataFrame, date_columns:list=[])->pd.DataFrame:
     """
-    Converts unix timestamp columns to datetime string. 
+    Converts unix timestamp columns to datetime string.. 
 
     input: 
     - input_df: your input dataframe 
@@ -13,7 +13,7 @@ def convert_unix_timestamp(input_df:pd.DataFrame, date_columns:list=[])->pd.Data
     """
     df = input_df.copy(deep=True)
     for date_column in date_columns: 
-        df[date_column] = pd.to_datetime(df[date_column], unit="s")
+        df[date_column] = pd.to_datetime(df[date_column], unit="s") # i did some change
     return df 
 
 def replace_column_character(input_df:pd.DataFrame, replace_dict:dict={})->pd.DataFrame:
