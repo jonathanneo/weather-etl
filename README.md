@@ -143,6 +143,8 @@ db_user = "<your_database_user>"
 db_password = "<your_database_password>"
 ```
 
+These credentials will be used in the `etl.ipynb` notebook. 
+
 The `credentials.py` file is already in .gitignore and thus your credentials will not be stored on Git. 
 
 ## Running code locally 
