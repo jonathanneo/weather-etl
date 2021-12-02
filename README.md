@@ -194,6 +194,10 @@ The expected output when the CI pipeline runs are:
 
 ## Scheduling jobs 
 
+
+<details>
+<summary><strong> Cron (MacOS or Linux) </strong></summary>
+
 To schedule a job using cron (see full guide [here](https://ole.michelsen.dk/blog/schedule-jobs-with-crontab-on-mac-osx/)): 
 
 ```sh 
@@ -213,6 +217,46 @@ You should see the following output:
 * * * * * cd /Users/jonathanneo/Documents/trilogy/weather-etl/scripts && bash run_etl.sh
 ```
 
+</details>
+
+<details>
+<summary><strong> Task Scheduler (Windows) </strong></summary>
+
+1. Open Task Scheduler on windows 
+
+2. Select `Create task`
+
+![images/task-scheduler-1.png](images/task-scheduler-1.png)
+
+3. Provide a name for the task 
+
+![images/task-scheduler-2.png](images/task-scheduler-2.png)
+
+4. Select `Actions` > `New` 
+
+![images/task-scheduler-3.png](images/task-scheduler-3.png)
+
+5. Provide the following details, and click `OK`: 
+    - Program/script: `<provide path to your python.exe in your conda environment folder>`
+        - Example: `C:\Users\jonat\anaconda3\envs\PythonData\python.exe`
+    - Add arguments (optional): `<provide the etl file>`
+        - Example: `etl.py` 
+    - Start in (optional): `<provide the path to the etl file>` 
+        - Example: `C:\Users\jonat\Documents\weather-etl\scripts`
+
+![images/task-scheduler-4.png](images/task-scheduler-4.png)
+
+6. Select `Triggers` 
+
+![images/task-scheduler-5.png](images/task-scheduler-5.png)
+
+7. Provide details of when you would like the job to run 
+
+![images/task-scheduler-6.png](images/task-scheduler-6.png)
+
+8. Click `OK` 
+
+</details>
 
 # Contributors
 - [@jonathanneo](https://github.com/jonathanneo)
