@@ -135,6 +135,16 @@ Install python dependencies by performing :
 pip install -r requirements.txt 
 ```
 
+## Credentials 
+In the `script/` folder, create a `credentials.py` file with the following variables:
+```py
+api_key = "<your_api_key>"
+db_user = "<your_database_user>"
+db_password = "<your_database_password>"
+```
+
+The `credentials.py` file is already in .gitignore and thus your credentials will not be stored on Git. 
+
 ## Running code locally 
 To run the ETL code on your computer, execute the following in your terminal: 
 
